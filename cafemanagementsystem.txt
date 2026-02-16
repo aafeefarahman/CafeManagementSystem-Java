@@ -1,0 +1,239 @@
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import java.awt.*;
+import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Lis
+public class CafeManagementSystem extends JFrame {
+    // 🔴 ABSOLUTE BASE PATH (FIXED)
+    static final String BASE =
+            "C:\\Users\\tulas\\OneDrive\\Desktop\\CafeManagmentSystem\\";
+    static final String BG_IMAGE = BASE + "background.png";
+    // ===== IMAGE LOADER =====
+    private ImageIcon loadImage(String path, int w, int h) {
+        File f = new File(path);
+        if (!f.exists()) {
+            System.out.println("❌ Image NOT found: " + path);
+            return null;
+        }
+        Image img = new ImageIcon(path).getImage()
+                .getScaledInstance(w, h, Image.SCALE_SMOOTH);
+        return new ImageIcon(img);
+    }
+    // ===== FIND UPI QR IMAGE (png / jpg / jpeg) =====
+    private String getUPIQRPath() {
+        String[] possible = {
+                BASE + "upi_qr.png",
+                BASE + "upi_qr.jpg",
+                BASE + "upi_qr.jpg"
+        };
+        for (String p : possible) {
+            if (new File(p).exists()) {
+                System.out.println("✅ QR FOUND: " + p);
+                return p;
+            }
+        }
+        System.out.println("❌ No QR image found in folder");
+        return null;
+    }
+    // ===== BACKGROUND PANEL =====
+    class BackgroundPanel extends JPanel {
+        Image bg;
+        BackgroundPanel(String path) {
+            if (new File(path).exists())
+                bg = new ImageIcon(path).getImage();
+            setLayout(null);
+        }
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            if (bg != null)
+                g.drawImage(bg, 0, 0, getWidth(), getHeight(), this);
+        }
+    }
+    // ===== MENU ITEM =====
+    static class MenuItem {
+        String name, imageFile;
+        int price, qty = 0;
+        JLabel qtyLabel;
+        MenuItem(String n, String img, int p) {
+            name = n;
+            imageFile = img;
+            price = p;
+        }
+    }
+    private final List<MenuItem> items = new ArrayList<>();
+    private JTextArea receipt;
+    private JRadioButton cash, upi, card;
+    public CafeManagementSystem() {
+        setContentPane(new BackgroundPanel(BG_IMAGE));
+        setTitle("Cafe Management System");
+        setSize(1600, 900);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        // ===== TITLE =====
+        JLabel title = new JLabel("☕  Cafe Management System  ☕", SwingConstants.CENTER);
+        title.setBounds(400, 20, 800, 55);
+        title.setFont(new Font("Segoe UI Emoji", Font.BOLD, 30));
+        title.setOpaque(true);
+        title.setBackground(Color.BLACK);
+        title.setForeground(Color.WHITE);
+        add(title);
+        // ===== MENU ITEMS =====
+        addItem("Tea", "tea.png", 30);
+        addItem("Coffee", "coffee.png", 50);
+        addItem("Juice", "juice.png", 60);
+        addItem("Pizza", "pizza.png", 150);
+        addItem("Burger", "burger.png", 120);
+        addItem("Sandwich", "sandwich.png", 80);
+        addItem("Pasta", "pasta.png", 100);
+        addItem("Shakes", "shakes.png", 90);
+        addItem("Donut", "donut.png", 40);
+        addItem("Brownie", "brownie.png", 100);
+        addItem("Ice Cream", "icecream.png", 60);
+        addItem("Lassi", "lassi.png", 50);
+        // ===== MENU PANEL =====
+        JPanel menuPanel = new JPanel(new BorderLayout());
+        menuPanel.setBounds(40, 100, 780, 720);
+        menuPanel.setOpaque(false);
+        menuPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        add(menuPanel);
+        JLabel menuTitle = new JLabel("MENU", SwingConstants.CENTER);
+        menuTitle.setFont(new Font("Arial", Font.BOLD, 24));
+        menuTitle.setOpaque(true);
+        menuTitle.setBackground(Color.BLACK);
+        menuTitle.setForeground(Color.WHITE);
+        menuPanel.add(menuTitle, BorderLayout.NORTH);
+        JPanel grid = new JPanel(new GridLayout(0, 3, 20, 20));
+        grid.setOpaque(false);
+        for (MenuItem m : items) grid.add(createItemCard(m));
+        JScrollPane menuScroll = new JScrollPane(grid);
+        menuScroll.getVerticalScrollBar().setUnitIncrement(20);
+        menuScroll.setOpaque(false);
+        menuScroll.getViewport().setOpaque(false);
+        menuPanel.add(menuScroll, BorderLayout.CENTER);
+        // ===== RECEIPT PANEL =====
+        JPanel receiptPanel = new JPanel(null);
+        receiptPanel.setBounds(850, 100, 700, 720);
+        receiptPanel.setOpaque(false);
+        receiptPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        add(receiptPanel);
+        JLabel rTitle = new JLabel("RECEIPT", SwingConstants.CENTER);
+        rTitle.setBounds(200, 10, 300, 40);
+        rTitle.setFont(new Font("Arial", Font.BOLD, 24));
+        rTitle.setOpaque(true);
+        rTitle.setBackground(Color.BLACK);
+        rTitle.setForeground(Color.WHITE);
+        receiptPanel.add(rTitle);
+        receipt = new JTextArea();
+        receipt.setFont(new Font("Consolas", Font.PLAIN, 14));
+        receipt.setEditable(false);
+        JScrollPane receiptScroll = new JScrollPane(receipt);
+        receiptScroll.setBounds(60, 70, 580, 360);
+        receiptPanel.add(receiptScroll);
+        JPanel pay = new JPanel();
+        pay.setBounds(60, 450, 580, 90);
+        pay.setBorder(new TitledBorder("Payment Options"));
+        pay.setOpaque(false);
+        cash = new JRadioButton("Cash", true);
+        upi  = new JRadioButton("UPI");
+        card = new JRadioButton("Card");
+        ButtonGroup bg = new ButtonGroup();
+        bg.add(cash); bg.add(upi); bg.add(card);
+        pay.add(cash); pay.add(upi); pay.add(card);
+        receiptPanel.add(pay);
+        JButton gen = new JButton("Generate Bill");
+        JButton reset = new JButton("Reset");
+        gen.setBounds(230, 560, 140, 40);
+        reset.setBounds(390, 560, 120, 40);
+        receiptPanel.add(gen);
+        receiptPanel.add(reset);
+        gen.addActionListener(e -> generateBill());
+        reset.addActionListener(e -> resetAll());
+    }
+    private void addItem(String name, String img, int price) {
+        items.add(new MenuItem(name, BASE + img, price));
+    }
+    private JPanel createItemCard(MenuItem item) {
+        JPanel card = new JPanel(new BorderLayout());
+        card.setPreferredSize(new Dimension(230, 260));
+        card.setBackground(Color.WHITE);
+        card.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        JLabel imgLabel = new JLabel("", SwingConstants.CENTER);
+        ImageIcon icon = loadImage(item.imageFile, 160, 120);
+        if (icon != null) imgLabel.setIcon(icon);
+        JLabel name = new JLabel(item.name + "  ₹" + item.price, SwingConstants.CENTER);
+        name.setFont(new Font("Arial", Font.BOLD, 14));
+        JButton plus = new JButton("+");
+        JButton minus = new JButton("-");
+        item.qtyLabel = new JLabel("0", SwingConstants.CENTER);
+        plus.addActionListener(e -> {
+            item.qty++;
+            item.qtyLabel.setText(String.valueOf(item.qty));
+        });
+        minus.addActionListener(e -> {
+            if (item.qty > 0) {
+                item.qty--;
+                item.qtyLabel.setText(String.valueOf(item.qty));
+            }
+        });
+        JPanel bottom = new JPanel();
+        bottom.add(minus);
+        bottom.add(item.qtyLabel);
+        bottom.add(plus);
+        card.add(imgLabel, BorderLayout.NORTH);
+        card.add(name, BorderLayout.CENTER);
+        card.add(bottom, BorderLayout.SOUTH);
+        return card;
+    }
+    private void generateBill() {
+        int total = 0;
+        StringBuilder sb = new StringBuilder();
+        sb.append("===== Cafe Receipt =====\n");
+        sb.append(LocalDateTime.now()
+                .format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")))
+          .append("\n-------------------------\n");
+        for (MenuItem i : items) {
+            if (i.qty > 0) {
+                int p = i.qty * i.price;
+                sb.append(i.name).append(" x").append(i.qty)
+                  .append(" = ₹").append(p).append("\n");
+                total += p;
+            }
+        }
+        sb.append("-------------------------\n");
+        sb.append("Total: ₹").append(total).append("\n");
+        sb.append("Payment: ")
+          .append(upi.isSelected() ? "UPI" : card.isSelected() ? "Card" : "Cash")
+          .append("\n\nThank You! Visit Again ☕");
+        receipt.setText(sb.toString());
+        if (upi.isSelected()) showUPIQR();
+    }
+    private void showUPIQR() {
+        String qrPath = getUPIQRPath();
+        JDialog d = new JDialog(this, "Scan to Pay (UPI)", true);
+        d.setSize(420, 480);
+        d.setLocationRelativeTo(this);
+        JLabel qr = new JLabel("", SwingConstants.CENTER);
+        if (qrPath != null) {
+            qr.setIcon(loadImage(qrPath, 300, 300));
+        } else {
+            qr.setText("QR IMAGE NOT FOUND");
+            qr.setFont(new Font("Arial", Font.BOLD, 16));
+        }
+        d.add(qr);
+        d.setVisible(true);
+    }
+    private void resetAll() {
+        for (MenuItem i : items) {
+            i.qty = 0;
+            i.qtyLabel.setText("0");
+        }
+        receipt.setText("");
+        cash.setSelected(true);
+    }
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new CafeManagementSystem().setVisible(true));
+}
+}
