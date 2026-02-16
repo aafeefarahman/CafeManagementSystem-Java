@@ -110,8 +110,3 @@ This is a simple beginner-level Java project created for learning purposes. It d
 This project is open-source and free to use for learning purposes.
 
 ```
-
----
-
-If you want, I can also give a **more impressive README that looks like a serious production project while still being beginner-level**.
-````
