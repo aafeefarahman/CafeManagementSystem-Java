@@ -1,4 +1,4 @@
-# ☕ Cafe Management System (Java Swing)
+# Cafe Management System (Java Swing)
 
 A simple beginner-friendly Cafe Management System built using Java Swing. This desktop application provides a graphical interface to select menu items, manage quantities, and generate bills with multiple payment options including Cash, Card, and UPI with QR code support.
 
@@ -6,7 +6,7 @@ This project was created as a learning project to understand Java GUI developmen
 
 ---
 
-## 🚀 Features
+## Features
 
 - Interactive GUI built using Java Swing
 - Menu items displayed with images
@@ -22,7 +22,7 @@ This project was created as a learning project to understand Java GUI developmen
 
 ---
 
-## 🛠 Technologies Used
+## Technologies Used
 
 - Java
 - Java Swing (GUI)
@@ -32,7 +32,7 @@ This project was created as a learning project to understand Java GUI developmen
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 
@@ -51,7 +51,7 @@ Cafe-Management-System-Java-Swing/
 
 ---
 
-## ▶️ How to Run
+## How to Run
 
 1. Clone the repository
 ```
@@ -72,7 +72,7 @@ java CafeManagementSystem
 
 ---
 
-## 🎯 Learning Objectives
+## Learning Objectives
 
 This project helped in understanding:
 
@@ -84,12 +84,12 @@ This project helped in understanding:
 
 ---
 
-## 📌 Note
+## Note
 
 This is a simple beginner-level Java project created for learning purposes. It demonstrates the basic functionality of a cafe billing system and GUI development using Java Swing.
 
 
-## ⭐ Future Improvements
+## Future Improvements
 
 - Database integration
 - Login system
@@ -99,14 +99,8 @@ This is a simple beginner-level Java project created for learning purposes. It d
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 <img width="1466" height="833" alt="1" src="https://github.com/user-attachments/assets/1614099e-204a-4172-bcdf-f80b68aa69f4" />
 <img width="1456" height="878" alt="2" src="https://github.com/user-attachments/assets/44aa8bdf-911c-48af-9508-e64729ba1247" />
 
 ---
-
-## 📄 License
-
-This project is open-source and free to use for learning purposes.
-
-```
