@@ -99,7 +99,7 @@ This is a simple beginner-level Java project created for learning purposes. It d
 
 ---
 
-## Screenshots
+## Executions
 <img width="1466" height="833" alt="1" src="https://github.com/user-attachments/assets/1614099e-204a-4172-bcdf-f80b68aa69f4" />
 <img width="1456" height="878" alt="2" src="https://github.com/user-attachments/assets/44aa8bdf-911c-48af-9508-e64729ba1247" />
 
