@@ -1,4 +1,5 @@
-<img width="480" height="45" alt="image" src="https://github.com/user-attachments/assets/83e3bc7e-4a4b-487d-82bd-497aa738cc52" />
+<img width="1164" height="168" alt="image" src="https://github.com/user-attachments/assets/ee480f07-cf0f-4528-bff9-31c2e09692d9" />
+
 
 # Cafe Management System (Java Swing)
 
