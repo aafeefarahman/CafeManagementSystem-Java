@@ -1,3 +1,5 @@
+<img width="480" height="45" alt="image" src="https://github.com/user-attachments/assets/83e3bc7e-4a4b-487d-82bd-497aa738cc52" />
+
 # Cafe Management System (Java Swing)
 
 A simple beginner-friendly Cafe Management System built using Java Swing. This desktop application provides a graphical interface to select menu items, manage quantities, and generate bills with multiple payment options including Cash, Card, and UPI with QR code support.
